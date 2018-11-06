@@ -9,7 +9,7 @@ Para rodar o caixa eletrônico, basta rodar o módulo "caixa_eletronico.py".
 
 Mas se prefirar utilizar a classe de forma isolada, segue exemplo de uso: 
 
-"""
+```
 caixa = CaixaEletronico()
 
 while True:
@@ -27,4 +27,4 @@ while True:
         break
     res = caixa.capta_valor(valor)
     print(res['msg'])
-"""
+```

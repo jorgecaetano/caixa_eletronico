@@ -75,6 +75,8 @@ class CaixaEletronico():
             return '\n'.join(['{} Nota(s) de {}'.format(v, k) for k, v in _usadas.items()])
 
         try:
+            if not self.notas:
+                return {'success': False, 'msg': 'Não há notas disponíveis'}
             i_valor = int(valor)
             valido = (i_valor >= 0) and (i_valor <= 1000)
             if not valido:
@@ -87,7 +89,6 @@ class CaixaEletronico():
 if __name__ == "__main__":
     caixa = CaixaEletronico()
 
-    nota = '0'
     while True:
         nota = input('Por favor. Informe a nota disponível. [Digite -1 para encerrar]')
         if nota == '-1':

@@ -84,7 +84,7 @@ class CaixaEletronico():
                         break
             if valor_imprimir > 0:
                 return False, 'Notas insuficientes para saque do valor solicitado'
-            return True, '\n'.join(['{} Nota(s) de {}'.format(v, k) for k, v in _usadas.items()])
+            return True, '\n'.join(['{} Nota(s) de {}'.format(v, k) for k, v in _usadas.items() if v > 0])
 
         try:
             if not self.notas:

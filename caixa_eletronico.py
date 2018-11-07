@@ -1,3 +1,10 @@
+"""
+Autor: Jorge Caetano
+
+Proposito: Fornecer uma classe que simula um caixa eletronico
+"""
+
+
 from collections import OrderedDict
 
 

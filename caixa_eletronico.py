@@ -61,18 +61,30 @@ class CaixaEletronico():
             :return:
             """
             if valor_imprimir == 0:
-                return 'Para valores abaixo de 1 (um) não será possível sacar.'
+                return False, 'Para valores abaixo de 1 (um) não será possível sacar.'
             _usadas = OrderedDict()
-            for i in sorted(notas, reverse=True):
+            buffer_notas = notas.copy()
+            for num, i in enumerate(sorted(notas, reverse=True)):
+                buffer_notas.remove(i)
                 if valor_imprimir >= i:
-                    qtde = int(valor_imprimir / i)
-                    valor_imprimir = valor_imprimir % i
-                    _usadas[i] = qtde
+                    while valor_imprimir >= i:
+                        qtde = int(valor_imprimir / i)
+                        valor_imprimir = (valor_imprimir % i)
+                        _usadas[i] = qtde
+                        _notas = notas.copy()
+                        _notas.remove(i)
+                        if valor_imprimir <= 0:
+                            break
+                        divisivel = imprime_notas(buffer_notas.copy(), valor_imprimir)[0]
+                        if not divisivel:
+                            valor_imprimir = valor_imprimir + i
+                            _usadas[i] = _usadas.get(i, 0) - 1
+                            break
                     if valor_imprimir <= 0:
                         break
             if valor_imprimir > 0:
-                return 'Notas insuficientes para saque do valor solicitado'
-            return '\n'.join(['{} Nota(s) de {}'.format(v, k) for k, v in _usadas.items()])
+                return False, 'Notas insuficientes para saque do valor solicitado'
+            return True, '\n'.join(['{} Nota(s) de {}'.format(v, k) for k, v in _usadas.items()])
 
         try:
             if not self.notas:
@@ -81,8 +93,9 @@ class CaixaEletronico():
             valido = (i_valor >= 0) and (i_valor <= 1000)
             if not valido:
                 return {'success': False, 'msg': 'O Valor informado [{}] é inválido.'.format(valor)}
-            return {'success': True, 'msg': imprime_notas(self.notas, i_valor)}
-        except:
+            success, msg = imprime_notas(self.notas, i_valor)
+            return {'success': success, 'msg': msg}
+        except Exception as err:
             return {'success': False, 'msg': 'O Valor informado [{}] é inválido.'.format(valor)}
 
 
@@ -103,4 +116,4 @@ if __name__ == "__main__":
         if valor == '-1':
             break
         res = caixa.capta_valor(valor)
-        print(res['msg'])
+        print(res['msg'], '\n')

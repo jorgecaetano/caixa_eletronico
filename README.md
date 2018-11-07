@@ -7,7 +7,7 @@ Este projeto contêm a classe CaixaEletronico, com os métodos: adiciona_nota e 
 
 Para rodar o caixa eletrônico, basta rodar o módulo "caixa_eletronico.py".
 
-Mas se prefirar utilizar a classe de forma isolada, segue exemplo de uso: 
+Mas se preferir utilizar a classe de forma isolada, segue exemplo de uso: 
 
 ```
 caixa = CaixaEletronico()
